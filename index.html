@@ -41,7 +41,7 @@
             var downloadAnchor = document.getElementById('download-anchor');
             downloadAnchor.classList = '';
             downloadAnchor.setAttribute('download', filename);
-            downloadAnchor.setAttribute('href', 'data:text/plain;base64,' + btoa(unescape(encodeURIComponent(text + ''))));
+            downloadAnchor.setAttribute('href', 'data:text/plain;base64,' + btoa(text + ''));
         };
         fr.readAsText(file);
     }
