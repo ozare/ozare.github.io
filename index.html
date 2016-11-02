@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        a.disabled {
+            pointer-events: none;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+<form action='#' onsubmit="return false;" style="margin: 10px;">
+    1. <input type='file' id='fileinput'>
+    <br/>
+    <br/>
+    2. Please input new title:
+    <input type="text" id="title">
+    <br/>
+    <br/>
+    3. <input type='button' id='btnLoad' value='Load' onclick='loadFile();'>
+    <br/>
+    <br/>
+    4. <a download="modifiedFile.ps" href="" id="download-anchor" class="disabled">Get the file!</a>
+</form>
+
+<script>
+    function loadFile() {
+        var input, file, fr, title, filename;
+
+        input = document.getElementById('fileinput');
+        file = input.files[0];
+        filename = file.name;
+        fr = new FileReader();
+        fr.onload = function () {
+            var text = fr.result;
+            var title = document.getElementById('title').value;
+            text = text.replace(/^.*%%Title:.*$/mg, '%%Title: ' + title);
+
+            var downloadAnchor = document.getElementById('download-anchor');
+            downloadAnchor.classList = '';
+            downloadAnchor.setAttribute('download', filename);
+            downloadAnchor.setAttribute('href', 'data:text/plain;base64,' + btoa(text + ''));
+        };
+        fr.readAsText(file);
+    }
+</script>
+</body>
+</html>
